@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPay Demo (Fake App)</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #00c853, #007c3a);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: #fff;
+            color: #000;
+            width: 380px;
+            max-width: 95%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        header {
+            background: #00c853;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .demo-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .screen {
+            padding: 20px;
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+        input, button, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background: #00c853;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #00a843;
+        }
+        .balance {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .action-btn {
+            background: #e8f5e9;
+            color: #00c853;
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        .history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .transaction {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .alert-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .alert-box {
+            background: white;
+            color: #007c3a;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 90%;
+            animation: bounce 0.5s;
+        }
+        @keyframes bounce {
+            0% { transform: scale(0.5); }
+            100% { transform: scale(1); }
+        }
+        .alert-box h2 {
+            color: #00c853;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="demo-badge">DEMO / FAKE APP</div>
+        <header>OPay Demo</header>
+
+        <!-- Login Screen -->
+        <div id="login" class="screen active">
+            <h2>Welcome Back</h2>
+            <p>Enter PIN to continue</p>
+            <input type="password" id="pin" placeholder="Enter 4-digit PIN" maxlength="4">
+            <button onclick="login()">Login</button>
+            <p style="font-size:12px; color:red;">Use PIN: 1234 for demo</p>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboard" class="screen">
+            <h2>Hello, User</h2>
+            <div class="balance">₦<span id="balance">50,000.00</span></div>
+            <div class="actions">
+                <div class="action-btn" onclick="showScreen('transfer')">Transfer</div>
+                <div class="action-btn" onclick="alert('Airtime top-up coming soon!')">Airtime</div>
+                <div class="action-btn" onclick="alert('Bills coming soon!')">Bills</div>
+                <div class="action-btn" onclick="showScreen('history')">History</div>
+            </div>
+            <button style="margin-top:30px; background:#ccc;" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Transfer Screen -->
+        <div id="transfer" class="screen">
+            <h2>Transfer Money</h2>
+            <input type="text" id="recipientName" placeholder="Recipient Name">
+            <input type="text" id="recipientAccount" placeholder="Account Number (e.g. OPay or any bank)">
+            <input type="number" id="amount" placeholder="Amount (₦)">
+            <input type="text" id="description" placeholder="Description (optional)">
+            <button onclick="performTransfer()">Send Money</button>
+            <button onclick="showScreen('dashboard')">Back</button>
+        </div>
+
+        <!-- History Screen -->
+        <div id="history" class="screen">
+            <h2>Transaction History</h2>
+            <div class="history" id="historyList"></div>
+            <button onclick="showScreen('dashboard')">Back</button>
+        </div>
+    </div>
+
+    <!-- Fake Credit Alert Popup -->
+    <div class="alert-popup" id="alertPopup">
+        <div class="alert-box">
+            <h2>Credit Alert!</h2>
+            <p>You have received</p>
+            <h1 style="color:#00c853;">₦<span id="alertAmount">0.00</span></h1>
+            <p>From: Demo Transfer<br>
+            Desc: <span id="alertDesc">Test transfer</span><br>
+            Date: <span id="alertDate"></span></p>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let balance = 50000.00;
+        let transactions = [];
+
+        // Load from localStorage if available
+        if (localStorage.getItem('demoBalance')) {
+            balance = parseFloat(localStorage.getItem('demoBalance'));
+            transactions = JSON.parse(localStorage.getItem('demoTransactions') || '[]');
+        }
+
+        function updateBalance() {
+            document.getElementById('balance').textContent = balance.toLocaleString('en-NG', {minimumFractionDigits: 2});
+            localStorage.setItem('demoBalance', balance);
+        }
+
+        function updateHistory() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+            transactions.slice().reverse().forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'transaction';
+                div.innerHTML = `<span>\( {t.date}<br> \){t.desc}</span><span style="color:\( {t.type==='sent'?'red':'green'};"> \){t.type==='sent'?'-' :'+'}₦${t.amount.toLocaleString()}</span>`;
+                list.appendChild(div);
+            });
+            localStorage.setItem('demoTransactions', JSON.stringify(transactions));
+        }
+
+        function login() {
+            const pin = document.getElementById('pin').value;
+            if (pin === '1234') {
+                showScreen('dashboard');
+                updateBalance();
+                updateHistory();
+            } else {
+                alert('Wrong PIN! Use 1234 for demo');
+            }
+        }
+
+        function logout() {
+            document.getElementById('pin').value = '';
+            showScreen('login');
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function performTransfer() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const name = document.getElementById('recipientName').value || 'Someone';
+            const desc = document.getElementById('description').value || 'Transfer';
+
+            if (!amount || amount <= 0 || amount > balance) {
+                alert('Invalid amount or insufficient balance!');
+                return;
+            }
+
+            balance -= amount;
+            updateBalance();
+
+            const now = new Date().toLocaleString();
+            transactions.push({type: 'sent', amount, desc: `Sent to ${name}`, date: now});
+            updateHistory();
+
+            // Show fake credit alert (as if recipient received it)
+            document.getElementById('alertAmount').textContent = amount.toLocaleString('en-NG', {minimumFractionDigits: 2});
+            document.getElementById('alertDesc').textContent = desc;
+            document.getElementById('alertDate').textContent = now;
+            document.getElementById('alertPopup').style.display = 'flex';
+
+            // Clear form
+            document.getElementById('amount').value = '';
+            document.getElementById('description').value = '';
+
+            setTimeout(() => {
+                showScreen('dashboard');
+            }, 3000);
+        }
+
+        function closeAlert() {
+            document.getElementById('alertPopup').style.display = 'none';
+        }
+
+        // Initial load
+        updateBalance();
+        updateHistory();
+    </script>
+</body>
+</html>
