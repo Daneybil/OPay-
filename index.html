@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Solidarity for Persecuted Christians Worldwide. Stand with and support persecuted Christians around the globe through your donations." />
+  <title>Solidarity for Persecuted Christians Worldwide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg1: #0a0e1a;         /* Deep navy */
+      --bg2: #111827;         /* Dark gray */
+      --accent-gold: #d4af37; /* Elegant gold for hope and divinity */
+      --accent-blue: #2563eb; /* Trustworthy blue */
+      --accent-hover: #3b82f6;
+      --text: #f3f4f6;         /* Light gray */
+      --muted: #9ca3af;        /* Muted text */
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --border: #1e293b;
+      --shadow: rgba(0, 0, 0, 0.4);
+      --cta-green: #059669;    /* Emerald green for CTA */
+      --cta-hover: #10b981;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Open Sans', system-ui, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Enhanced animated background with subtle moving particles/glow */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(5, 150, 105, 0.1) 0%, transparent 60%);
+      animation: gentlePulse 25s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes gentlePulse {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+      100% { transform: scale(1.05) translate(2vw, -2vh); opacity: 0.8; }
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    header { text-align: center; padding: 40px 0 20px; }
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .subtitle {
+      margin-top: 16px;
+      font-weight: 600;
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      color: var(--text);
+    }
+
+    .target {
+      margin: 20px auto 0;
+      max-width: 900px;
+      padding: 16px 24px;
+      background: rgba(212, 175, 55, 0.1);
+      border-left: 5px solid var(--accent-gold);
+      border-radius: 8px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 12px 40px var(--shadow);
+      backdrop-filter: blur(10px);
+      padding: 32px;
+      margin-top: 40px;
+    }
+
+    .video-wrap { display: grid; gap: 32px; margin-bottom: 40px; }
+    .video {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px var(--shadow);
+      background: #0f172a;
+    }
+    .video iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+      border-radius: 16px;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 32px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .amount-input {
+      width: 100%;
+      padding: 16px 16px 16px 48px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: var(--text);
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="2" y="18" font-size="20" fill="%23d4af37">$</text></svg>');
+      background-repeat: no-repeat;
+      background-position: 14px center;
+    }
+    .amount-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+    }
+
+    .btn {
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(180deg, var(--cta-green), #047857);
+      border: none;
+      color: white;
+    }
+    .btn-primary:hover { background: linear-gradient(180deg, var(--cta-hover), #059669); transform: translateY(-2px); }
+
+    footer {
+      margin-top: 60px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .partners {
+      margin: 32px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      opacity: 0.7;
+    }
+    .partners img {
+      height: 40px;
+      filter: grayscale(100%) brightness(150%);
+      transition: all 0.3s;
+    }
+    .partners img:hover { filter: grayscale(0%) brightness(100%); opacity: 1; }
+
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .social-link {
+      padding: 12px 24px;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .social-link:hover {
+      border-color: var(--accent-gold);
+      background: rgba(212, 175, 55, 0.1);
+      transform: translateY(-3px);
+    }
+
+    @media (min-width: 768px) {
+      .video-wrap { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+
+  <div class="container">
+    <header>
+      <h1 class="title">Solidarity for Persecuted Christians Worldwide</h1>
+      <div class="subtitle">Standing together in faith, aid, and hope.</div>
+      <div class="target">
+        Our target is $1 billion to help achieve our goals worldwide. We have only one year to raise this fund, so we can begin our projects next year. Please help us.
+      </div>
+    </header>
+
+    <main class="card">
+      <section aria-label="Campaign videos">
+        <div class="video-wrap">
+          <div class="video">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" title="Campaign Video 1" allowfullscreen></iframe>
+          </div>
+          <div class="video">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="Campaign Video 2" allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta" aria-label="Donation call to action">
+        <p>Help support persecuted Christians around the globe. Please donate any amount you can afford – starting from $1 up to $1 million or more. Every contribution makes a lasting difference.</p>
+
+        <div class="field">
+          <label class="sr-only" for="amount">Donation amount (USD)</label>
+          <div class="input-row">
+            <input id="amount" class="amount-input" type="number" min="1" step="1" placeholder="Enter amount e.g., 100" />
+            <button id="donateBtn" class="btn btn-primary">Donate Now</button>
+          </div>
+          <div class="ref-info">Minimum $1 • Larger gifts warmly welcomed • Thank you for your generosity</div>
+          <div id="error" class="error" role="alert"></div>
+        </div>
+
+        <!-- Referral section (client-side simulation) -->
+        <div class="ref-box" style="margin-top: 40px;">
+          <div class="ref-info">After donating, share your unique referral link to inspire others.</div>
+          <div id="sharePreview" class="ref-info" style="margin-top: 16px; font-style: italic;"></div>
+        </div>
+      </section>
+    </main>
+
+    <section class="partners" aria-label="Payment and partner logos">
+      <p style="font-weight: 600; margin-bottom: 16px;">We accept payments via (Stripe integration coming soon):</p>
+      <!-- Placeholder logos – replace with actual URLs when ready -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/PayPal_logo.svg" alt="PayPal">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google Pay">
+      <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/Flag_of_the_United_States.svg" alt="USA" style="height: 30px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Amazon_logo.svg" alt="Amazon Pay">
+    </section>
+
+    <footer>
+      <div class="socials">
+        <a class="social-link" href="https://truthsocial.com/@realDonaldTrump" target="_blank" rel="noopener">Donald Trump – Truth Social</a>
+        <a class="social-link" href="https://x.com/realDonaldTrump" target="_blank" rel="noopener">Donald Trump – X/Twitter</a>
+        <a class="social-link" href="https://www.instagram.com/realDonaldTrump" target="_blank" rel="noopener">Donald Trump – Instagram</a>
+        <a class="social-link" href="https://www.youtube.com/@DonaldJTrump" target="_blank" rel="noopener">Donald Trump – YouTube</a>
+        <a class="social-link" href="#">[Your Twitter Link Here]</a>
+      </div>
+      <div class="ref-info" style="margin-top: 24px;">
+        © <span id="year"></span> Solidarity for Persecuted Christians Worldwide. All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Same script as before (slightly cleaned)
+    const dollar = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+
+    const amountEl = document.getElementById('amount');
+    const donateBtn = document.getElementById('donateBtn');
+    const errorEl = document.getElementById('error');
+    const sharePreviewEl = document.getElementById('sharePreview');
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    let lastDonation = 0;
+
+    donateBtn.addEventListener('click', () => {
+      errorEl.textContent = '';
+      const val = amountEl.value.trim();
+      if (!val || isNaN(val) || Number(val) < 1) {
+        errorEl.textContent = 'Please enter a valid amount (minimum $1).';
+        return;
+      }
+      const amt = Math.floor(Number(val));
+      lastDonation = amt;
+
+      // Simulate donation
+      donateBtn.disabled = true;
+      donateBtn.textContent = 'Processing...';
+      setTimeout(() => {
+        donateBtn.textContent = 'Donate Now';
+        donateBtn.disabled = false;
+        alert(`Thank you for your ${dollar(amt)} donation!`);
+        const msg = `I have donated ${dollar(amt)} to Solidarity for Persecuted Christians Worldwide. Please do the same or more – let's make the world a better place!`;
+        sharePreviewEl.textContent = msg;
+      }, 1000);
+    });
+  </script>
+</body>
+  </html>
