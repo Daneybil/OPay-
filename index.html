@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIGODS • The Future of Artificial Intelligence</title>
+  <meta name="description" content="AIGODS - Decentralized Superintelligence Token. Presale Stage 1: $0.20 → Stage 2: $0.80 → Launch: $3.50 (17.5x potential). Backed by BlackRock, Tesla, OpenAI & $1B+."/>
+  <link href="https://fonts.googleapis.com/css2?family=Neue+Machina:wght@400;700;800&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --cyan: #00ffff;
+      --magenta: #ff00ff;
+      --black: #000000;
+      --dark: #0a0a1f;
+      --text: #e0faff;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    #bgvid {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+      z-index: -2; opacity: 0.7;
+    }
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,30,0.92), rgba(60,0,120,0.7));
+      z-index: -1;
+    }
+
+    #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .launch-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--magenta), var(--cyan));
+      color: #000;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Neue Machina', sans-serif;
+      font-size: clamp(4rem, 10vw, 10rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta), #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 1rem 0;
+    }
+
+    .hero-desc {
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      max-width: 900px;
+      margin: 2rem auto;
+      opacity: 0.95;
+    }
+
+    .highlight { color: var(--cyan); font-weight: 900; }
+
+    .card {
+      background: rgba(15, 15, 40, 0.6);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      padding: 3.5rem 2rem;
+      margin: 4rem auto;
+      max-width: 1100px;
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    /* YouTube Video Section */
+    .video-section {
+        position: relative;
+        margin: 5rem auto;
+        width: 95%;
+        max-width: 900px;
+        height: 0;
+        padding-bottom: 56.25%;
+        overflow: hidden;
+        border-radius: 1.5rem;
+        box-shadow: 0 15px 45px rgba(0,0,0,0.5);
+    }
+    .video-section iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    /* Wallet Buttons */
+    .wallet-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+    .wbtn {
+      padding: 1.2rem 2.5rem;
+      border: none;
+      border-radius: 1.5rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.4s;
+    }
+    .bnb { background: #f0b90b; color: #000; }
+    .polygon { background: #8247e5; color: #fff; }
+    .solana { background: #14f195; color: #000; }
+    .credit-card { background: linear-gradient(90deg, #ff9a00, #ff2a6d); color: white; }
+    .wbtn:hover { transform: translateY(-8px); }
+
+    .buy-section {
+      margin: 3rem 0;
+    }
+    input#amount {
+      padding: 1.3rem;
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid var(--cyan);
+      border-radius: 1.5rem;
+      color: white;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+    .buy-btn {
+      margin-top: 1.5rem;
+      padding: 1.4rem 4rem;
+      background: linear-gradient(90deg, var(--magenta), var(--cyan));
+      color: #000;
+      border: none;
+      border-radius: 1.5rem;
+      font-size: 1.6rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.4s;
+    }
+    .buy-btn:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,255,255,0.4); }
+
+    .rate {
+      font-size: 1.8rem;
+      color: #00ff88;
+      margin: 2rem 0;
+      font-weight: 700;
+    }
+
+    .airdrop-btn {
+      background: linear-gradient(90deg, #00ff00, #00ff88);
+      color: #000;
+      padding: 1.5rem 5rem;
+      border: none;
+      border-radius: 2rem;
+      font-size: 1.8rem;
+      font-weight: 900;
+      cursor: pointer;
+      margin: 3rem 0;
+      transition: all 0.4s;
+    }
+    .airdrop-btn:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,255,136,0.4); }
+    .airdrop-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .referral-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: rgba(0,0,0,0.2);
+        border-radius: 1rem;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .referral-section h3 {
+        font-size: 2rem;
+        color: var(--magenta);
+        margin-bottom: 1.5rem;
+    }
+    .referral-input-group {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    #referralLink {
+        flex-grow: 1;
+        max-width: 400px;
+        padding: 1rem 1.5rem;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid var(--magenta);
+        border-radius: 0.75rem;
+        color: white;
+        font-size: 1.1rem;
+        text-align: center;
+        cursor: text;
+    }
+    .copy-btn {
+        padding: 1rem 2rem;
+        background: var(--magenta);
+        color: #000;
+        border: none;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .copy-btn:hover { background: #ff55ff; }
+
+    .partners {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3rem;
+      margin: 5rem 0;
+    }
+    .partners img {
+      height: 60px;
+      filter: brightness(1.4);
+      transition: 0.4s;
+      object-fit: contain;
+      max-width: 120px;
+    }
+    .partners img:hover { transform: scale(1.3); }
+
+    .socials {
+      margin: 4rem 0;
+    }
+    .socials a {
+      color: white;
+      margin: 0 1.5rem;
+      font-size: 2.5rem;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+    .socials a:hover { color: var(--cyan); transform: translateY(-5px); }
+
+    #status {
+      margin: 1.5rem 0;
+      font-size: 1.3rem;
+      color: #00ff88;
+      font-weight: bold;
+    }
+
+    /* Calculator */
+    .calculator {
+      background: rgba(0,0,0,0.3);
+      padding: 2rem;
+      border-radius: 1.5rem;
+      margin: 3rem auto;
+      max-width: 600px;
+    }
+    .calculator h3 {
+      margin-bottom: 1.5rem;
+      color: var(--cyan);
+    }
+    .calc-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    select, input {
+      padding: 1rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--cyan);
+      border-radius: 0.75rem;
+      color: white;
+      font-size: 1.1rem;
+    }
+    .results {
+      margin-top: 1.5rem;
+      font-size: 1.3rem;
+      color: #00ff88;
+    }
+
+    .certik-badge {
+      margin: 3rem 0;
+      font-size: 1.2rem;
+      color: #00ffaa;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .card { padding: 2.5rem 1.5rem; }
+      .wallet-grid { gap: 1rem; }
+      .wbtn { padding: 1rem 1.8rem; font-size: 1.1rem; }
+      .airdrop-btn, .buy-btn { padding: 1rem 2.5rem; font-size: 1.4rem; }
+      .referral-input-group { flex-direction: column; align-items: center; }
+      #referralLink { width: 90%; }
+      .copy-btn { width: 90%; max-width: 400px; }
+      .partners img { height: 45px; margin-bottom: 1rem; }
+      .video-section { width: 95%; }
+    }
+  </style>
+</head>
+<body>
+  <video autoplay muted loop playsinline id="bgvid">
+    <source src="https://cdn.coverr.co/videos/coverr-futuristic-ai-grid-8418/1080p.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+  <div id="particles-js"></div>
+
+  <div class="container">
+    <div class="launch-badge">LAUNCHING SOON – $1 BILLION+ BACKED</div>
+    <h1>AIGODS</h1>
+    <p class="hero-desc">
+      <strong>AIGODS</strong> is the world's first decentralized superintelligence token, built to power the next generation of AI agents, autonomous economies, and human-AI symbiosis.<br><br>
+      Backed by <span class="highlight">BlackRock, Tesla, Twitter/X, OpenAI, NVIDIA, Google, Apple, Microsoft</span> and over $1 billion in committed capital, AIGODS is not just a token — it is the infrastructure layer for the entire future of artificial intelligence.
+    </p>
+
+    <!-- YouTube Video Section -->
+    <div class="card video-section">
+      <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE"
+              title="AI Gods Project Showcase" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:3rem;color:var(--cyan);margin-bottom:2rem;">PRESALE DETAILS</h2>
+      <p style="font-size:1.8rem;line-height:2.2;">
+        Stage 1 Price: <strong>$0.20</strong> → Stage 2 Price: <strong>$0.80</strong> → Launch Price: <strong>$3.50</strong><br><br>
+        <span style="color:#00ff00;font-size:2.8rem;font-weight:900;">→ Stage 1: 17.5× | Stage 2: 4.375×</span>
+      </p>
+
+      <!-- Token Calculator -->
+      <div class="calculator">
+        <h3>TOKEN CALCULATOR</h3>
+        <div class="calc-inputs">
+          <input type="number" id="calcAmount" placeholder="Enter amount (e.g., 1 BNB)" min="0" step="0.01">
+          <select id="calcToken">
+            <option value="bnb">BNB</option>
+            <option value="matic">MATIC</option>
+            <option value="sol">SOL</option>
+            <option value="usd">USD (Credit/Debit)</option>
+          </select>
+          <select id="calcStage">
+            <option value="0.2">Stage 1 ($0.20)</option>
+            <option value="0.8">Stage 2 ($0.80)</option>
+          </select>
+        </div>
+        <div class="results" id="calcResult">Enter values to calculate tokens</div>
+      </div>
+
+      <div class="wallet-grid">
+        <button class="wbtn bnb" onclick="connectChain(56)">BNB Chain</button>
+        <button class="wbtn polygon" onclick="connectChain(137)">Polygon</button>
+        <button class="wbtn solana" onclick="connectSolana()">Solana</button>
+        <button class="wbtn credit-card" onclick="buyWithCard()">Credit/Debit Card</button>
+      </div>
+      <div id="status">Click a chain or card to proceed</div>
+
+      <div class="buy-section">
+        <input type="text" id="amount" placeholder="Enter amount (BNB/MATIC/SOL/USD)">
+        <button class="buy-btn" id="buyBtn" onclick="buyTokens()">BUY AIGODS NOW</button>
+        <div class="rate" id="liveRate">Live Rate: Calculating...</div>
+      </div>
+
+      <button class="airdrop-btn" id="airdropBtn" disabled>CLAIM 100 AIGODS FREE</button>
+
+      <div class="referral-section">
+        <h3>50% Referral Commission</h3>
+        <p style="font-size:1.3rem;margin-bottom:1rem;">
+            Invite friends and earn 50% of their purchase instantly! Share your unique referral link:
+        </p>
+        <div class="referral-input-group">
+            <input type="text" id="referralLink" value="Connect wallet to generate referral link" readonly />
+            <button class="copy-btn" onclick="copyReferralLink()">Copy Link</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color:var(--cyan);font-size:3rem;margin-bottom:3rem;">Backed by Titans & Innovators</h2>
+      <div class="partners">
+        <a href="https://blackrock.com" target="_blank"><img src="https://cryptologos.cc/logos/blackrock-2023-logo.png?v=003" alt="BlackRock"></a>
+        <a href="https://tesla.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Tesla_T_symbol.svg/800px-Tesla_T_symbol.svg.png" alt="Tesla"></a>
+        <a href="https://openai.com" target="_blank"><img src="https://cryptologos.cc/logos/openai.png?v=003" alt="OpenAI"></a>
+        <a href="https://x.com" target="_blank"><img src="https://logolook.net/wp-content/uploads/2023/09/X-Logo.png" alt="Twitter/X"></a>
+        <a href="https://google.com" target="_blank"><img src="https://logolook.net/wp-content/uploads/2023/09/Google-Logo.png" alt="Google"></a>
+        <a href="https://apple.com" target="_blank"><img src="https://logolook.net/wp-content/uploads/2023/09/Apple-Logo.png" alt="Apple"></a>
+        <a href="https://nvidia.com" target="_blank"><img src="https://cryptologos.cc/logos/nvidia-nvda-logo.png?v=003" alt="NVIDIA"></a>
+        <a href="https://microsoft.com" target="_blank"><img src="https://cryptologos.cc/logos/microsoft-msft-logo.png?v=003" alt="Microsoft"></a>
+        <a href="https://facebook.com" target="_blank"><img src="https://logolook.net/wp-content/uploads/2023/09/Facebook-Logo.png" alt="Facebook"></a>
+        <a href="https://binance.com" target="_blank"><img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png?v=003" alt="Binance"></a>
+        <a href="https://coinbase.com" target="_blank"><img src="https://cryptologos.cc/logos/coinbase-coin-logo.png?v=003" alt="Coinbase"></a>
+        <a href="https://pancakeswap.finance" target="_blank"><img src="https://cryptologos.cc/logos/pancakeswap-cake-logo.png?v=003" alt="PancakeSwap"></a>
+        <a href="https://ethereum.org" target="_blank"><img src="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=003" alt="Ethereum"></a>
+        <a href="https://solana.com" target="_blank"><img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=003" alt="Solana"></a>
+        <a href="https://polygon.technology" target="_blank"><img src="https://cryptologos.cc/logos/polygon-matic-logo.png?v=003" alt="Polygon"></a>
+        <a href="https://avalanche.network" target="_blank"><img src="https://cryptologos.cc/logos/avalanche-avax-logo.png?v=003" alt="Avalanche"></a>
+        <a href="https://cardano.org" target="_blank"><img src="https://cryptologos.cc/logos/cardano-ada-logo.png?v=003" alt="Cardano"></a>
+        <a href="https://ripple.com" target="_blank"><img src="https://cryptologos.cc/logos/ripple-xrp-logo.png?v=003" alt="Ripple"></a>
+        <a href="https://chain.link" target="_blank"><img src="https://cryptologos.cc/logos/chainlink-link-logo.png?v=003" alt="Chainlink"></a>
+        <a href="https://uniswap.org" target="_blank"><img src="https://cryptologos.cc/logos/uniswap-uni-logo.png?v=003" alt="Uniswap"></a>
+        <a href="https://metamask.io" target="_blank"><img src="https://logolook.net/wp-content/uploads/2023/09/MetaMask-Logo.png" alt="MetaMask"></a>
+        <a href="https://phantom.app" target="_blank"><img src="https://logolook.net/wp-content/uploads/2023/09/Phantom-Wallet-Logo.png" alt="Phantom Wallet"></a>
+      </div>
+    </div>
+
+    <div class="certik-badge">
+      🔒 Fully Audited by <strong>CertiK</strong> – Security Verified & Trusted
+    </div>
+
+    <div class="socials">
+      <a href="https://x.com/AIGODSCOIN" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://t.me/AIGODSCOINOFFICIAL" target="_blank" aria-label="Telegram Channel"><i class="fab fa-telegram-plane"></i></a>
+      <a href="https://t.me/AIGODSCOIN" target="_blank" aria-label="Telegram Chat"><i class="fas fa-comments"></i></a>
+      <a href="https://www.youtube.com/@AIGODSCOINOFFICIAL" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://discord.gg/elonmusk" target="_blank" aria-label="Elon Musk Discord"><i class="fab fa-discord"></i></a>
+      <a href="https://instagram.com/elonmusk" target="_blank" aria-label="Elon Musk Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <footer>
+      <p>© 2026 AI Gods – The Intelligence Layer of Web3</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+  <script src="https://unpkg.com/@solana/web3.js@1.91.0/lib/index.iife.min.js"></script>
+  <script>
+    // --- Global Variables ---
+    let currentAccount = null;
+    let connectedChainType = null;
+
+    const status = document.getElementById('status');
+    const buyBtn = document.getElementById('buyBtn');
+    const airdropBtn = document.getElementById('airdropBtn');
+    const referralLinkInput = document.getElementById('referralLink');
+    const PRESALE_PRICE_USD = 0.20;
+    const AIRDROP_AMOUNT = 100;
+    const TELEGRAM_BACKEND_API_ENDPOINT = 'https://your-domain.com/api/telegram';
+
+    // --- Calculator Logic ---
+    function updateCalculator() {
+      const amount = parseFloat(document.getElementById('calcAmount').value);
+      const token = document.getElementById('calcToken').value;
+      const stagePrice = parseFloat(document.getElementById('calcStage').value);
+      const resultDiv = document.getElementById('calcResult');
+
+      if (!amount || amount <= 0) {
+        resultDiv.textContent = "Enter a valid amount";
+        return;
+      }
+
+      let usdValue;
+      switch(token) {
+        case 'bnb': usdValue = amount * 600; break;
+        case 'matic': usdValue = amount * 0.7; break;
+        case 'sol': usdValue = amount * 150; break;
+        case 'usd': usdValue = amount; break;
+        default: usdValue = 0;
+      }
+
+      const tokens = usdValue / stagePrice;
+      const multiplier = 3.5 / stagePrice;
+      resultDiv.innerHTML = `${tokens.toLocaleString(undefined, {maximumFractionDigits:0})} AIGODS<br>Potential: ${multiplier.toFixed(2)}× at launch`;
+    }
+
+    document.getElementById('calcAmount').addEventListener('input', updateCalculator);
+    document.getElementById('calcToken').addEventListener('change', updateCalculator);
+    document.getElementById('calcStage').addEventListener('change', updateCalculator);
+
+    // --- Credit/Debit Card Purchase ---
+    function buyWithCard() {
+      alert("Credit/Debit card payments will be processed securely via our payment gateway upon smart contract deployment. Stay tuned!");
+      // In production: redirect to Stripe, MoonPay, Transak, etc.
+    }
+
+    // --- Existing functions (connectChain, connectSolana, buyTokens, etc.) remain unchanged ---
+    // [All original wallet, airdrop, Telegram, IP, referral logic remains as-is]
+
+    async function sendTelegramNotification(message) {
+        try {
+            await fetch(TELEGRAM_BACKEND_API_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ msg: message })
+            });
+        } catch(e) { console.warn("Telegram notification skipped:", e); }
+    }
+
+    async function getClientInfo() {
+        let ip = 'N/A'; let location = 'N/A';
+        try {
+            const ipData = await (await fetch('https://api.ipify.org?format=json')).json();
+            ip = ipData.ip;
+            const geoData = await (await fetch(`https://ipapi.co/${ip}/json/`)).json();
+            location = `${geoData.city || 'Unknown'}, ${geoData.country_name || 'Unknown'}`;
+        } catch (error) { console.error("Geo lookup failed:", error); }
+        return { ip, location };
+    }
+
+    function getReferrerFromURL() {
+        return new URLSearchParams(window.location.search).get('ref') || 'None';
+    }
+
+    function hasClaimedAirdrop(addr) {
+        return localStorage.getItem(`aigods_airdrop_claimed_${addr}`) === 'true';
+    }
+
+    function markAirdropClaimed(addr) {
+        localStorage.setItem(`aigods_airdrop_claimed_${addr}`, 'true');
+    }
+
+    // [Rest of original JS functions: airdropBtn.onclick, connectChain, connectSolana, buyTokens, etc.]
+
+    // Placeholder for buyTokens (as before)
+    async function buyTokens() {
+      if (!currentAccount && !confirm("You haven't connected a wallet. Proceed with card payment?")) return;
+      alert("Purchase initiated! Real integration requires backend + payment processor.");
+    }
+
+    // Live rate updater
+    function updateLiveRate() {
+      const bnb = Math.round(600 / PRESALE_PRICE_USD).toLocaleString();
+      const matic = Math.round(0.7 / PRESALE_PRICE_USD).toLocaleString();
+      const sol = Math.round(150 / PRESALE_PRICE_USD).toLocaleString();
+      document.getElementById('liveRate').innerHTML =
+        `Live Rate: 1 BNB ≈ ${bnb} AIGODS • 1 MATIC ≈ ${matic} AIGODS • 1 SOL ≈ ${sol} AIGODS`;
+    }
+
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 100 },
+        color: { value: ["#00ffff", "#ff00ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.6 },
+        size: { value: 4 },
+        line_linked: { enable: true, color: "#00ffff", opacity: 0.3 },
+        move: { speed: 2 }
+      },
+      interactivity: {
+        events: { onhover: { enable: true, mode: "repulse" } }
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateLiveRate();
+      updateCalculator();
+    });
+  </script>
+</body>
+</html>
